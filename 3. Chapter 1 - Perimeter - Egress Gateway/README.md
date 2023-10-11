@@ -205,7 +205,7 @@ spec:
   egressGatewayFailureDetection:
     healthTimeoutDataStoreSeconds: 30
     icmpProbe:
-      ips: ["10.0.1.10"]
+      ips: [""]
       timeoutSeconds: 15
       intervalSeconds: 5
   template:
@@ -308,8 +308,6 @@ exit
 ```
 tigera@bastion:~$ netcat -nvlkp 7777
 Listening on 0.0.0.0 7777
-Connection received on 10.10.10.0 39457tigera@bastion:~$ netcat -nvlkp 7777
-Listening on 0.0.0.0 7777
 Connection received on 10.10.10.0 39457
 ```
 
@@ -366,7 +364,7 @@ kubectl edit deployments.apps egress-gateway
 
 ```
 
-![patch-egress-gateway-deployment](img/1.egress-gateway-deployment-patch.JPG)
+![patch-egress-gateway-deployment](img/1.egress-gateway-deployment-patch.png)
 
 24. Make sure that the egress gateway pod is running by running the following command.
 
@@ -442,4 +440,4 @@ kubectl delete deployments egress-gateway
 
 ```
 
-> **Congratulations! You have completed `5. Calico Enterprise Egress Gateway` lab.**
+> **Congratulations! You have completed `3. Chapter 1 - Perimeter - Calico Enterprise Egress Gateway` lab.**
