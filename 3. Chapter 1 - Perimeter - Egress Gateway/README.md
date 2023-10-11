@@ -173,18 +173,18 @@ kubectl get pods -n app1
 
 ```
 
-6. Egress gateway image needs to be downloaded onto the the nodes where egress gateway pods are deployed. We need to identify the pullsecret that is needed for pulling Calico Enterprise images and copy it into the namespace where you plan to create your egress gateways. Calico Enterprise by default uses a secret named `tigera-pull-secret`. Run the following command to copy `tigera-pull-secret` from `calico-system` namespace to the `default` namespace.
+<!-- 6. Egress gateway image needs to be downloaded onto the the nodes where egress gateway pods are deployed. We need to identify the pullsecret that is needed for pulling Calico Enterprise images and copy it into the namespace where you plan to create your egress gateways. Calico Enterprise by default uses a secret named `tigera-pull-secret`. Run the following command to copy `tigera-pull-secret` from `calico-system` namespace to the `default` namespace.
 
 ```
 kubectl get secret tigera-pull-secret --namespace=calico-system -o yaml | grep -v '^[[:space:]]*namespace:[[:space:]]*calico-system' | kubectl apply --namespace=default -f -
 
-```
+``` -->
 
-7. Deploy the Egress gateway by browsing to the following link, copy the egress-gateway deployment, and deploy it in the cluster. Make sure the version of egress-gateway image matches the Calico Enterprise version deployed in the cluster.
+7. Deploy the Egress gateway using the egress IP Pool. 
+
+**Note:** Since Tigera continously updates this manifest with the new features and configurations paramters, this manifest should be downloaded from the Tigera docs site and adapted to the use case. Make sure the version of egress-gateway image matches the Calico Enterprise version deployed in the cluster:
 
 https://docs.tigera.io/networking/egress/egress-gateway-on-prem#deploy-a-group-of-egress-gateways 
-
-**Note:** Since Tigera continously updates this manifest with the new features and configurations paramters, this manifest should be downloaded from the Tigera docs site. Following is a sample manifest from the docs site.
 
 Note the following configurations:
 
