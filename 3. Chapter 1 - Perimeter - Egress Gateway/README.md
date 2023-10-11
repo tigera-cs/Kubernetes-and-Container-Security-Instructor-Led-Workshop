@@ -55,11 +55,13 @@ EOF
 
 ```
 
-2. Bastion host is simulating our upstream router and we should have BGP sessions established to all the cluster nodes using the above configurations. Run the following command on the bastion node to validate the bgp sessions from the bastion node to the cluster nodes.
+2. Bastion host is simulating our upstream router/firewall and we should have BGP sessions established to all the cluster nodes using the above configurations. Run the following command on the bastion node to validate the bgp sessions from the bastion node to the cluster nodes.
 
 ```
-sudo birdc show protocols
+watch sudo birdc show protocols
 ```
+
+Wait for all sessions to be established.
 
 ```
 BIRD 1.6.8 ready.
@@ -94,36 +96,20 @@ And restart bird
 sudo systemctl restart bird
 ```
 
-3. Check the routes on the bastion node. You should see that the edge gateway pod is reachable through the worker node where it has been deployed:
-
-```
-ip route
-```
-```
-default via 10.0.1.1 dev ens5 proto dhcp src 10.0.1.10 metric 100 
-10.0.1.0/24 dev ens5 proto kernel scope link src 10.0.1.10 
-10.0.1.1 dev ens5 proto dhcp scope link src 10.0.1.10 metric 100 
-10.10.10.0/31 via 10.0.1.31 dev ens5 proto bird 
-10.48.2.216/29 via 10.0.1.31 dev ens5 proto bird 
-10.49.0.0/16 proto bird 
-        nexthop via 10.0.1.20 dev ens5 weight 1 
-        nexthop via 10.0.1.31 dev ens5 weight 1
-```
-
-4. Enable egress gateway support by patching FelixConfiguration to support egress gateway both per namespace and per pod.
+3. Enable egress gateway support by patching FelixConfiguration to support egress gateway both per namespace and per pod.
 
 ```
 kubectl patch felixconfiguration.p default --type='merge' -p '{"spec":{"egressIPSupport":"EnabledPerNamespaceOrPerPod"}}'
     
 ```
-5. Egress gateways require the Policy Sync API to be enabled in `felixconfiguration` to implement symmetric routing. Run the following command to enable this configuration cluster-wide.
+4. Egress gateways require the Policy Sync API to be enabled in `felixconfiguration` to implement symmetric routing. Run the following command to enable this configuration cluster-wide.
 
 ```
 kubectl patch felixconfiguration.p default --type='merge' -p '{"spec":{"policySyncPathPrefix":"/var/run/nodeagent"}}'
     
 ```
 
-6. Egress gateways use the IPPool resource for a particular application when it connects outside of the cluster. Run the following command to create the egress gateway IPPool.
+5. Egress gateways use the IPPool resource for a particular application when it connects outside of the cluster. Run the following command to create the egress gateway IPPool.
 
 ```
 kubectl apply -f - <<EOF
@@ -139,7 +125,7 @@ EOF
 
 ```
 
-7. Let's create a namespace and application, which will be using egress gateway to connect to resources outside the cluster.
+6. Let's create a namespace and application, which will be using egress gateway to connect to resources outside the cluster.
 
 ```
 kubectl apply -f -<<EOF
@@ -194,14 +180,14 @@ EOF
 
 ```
 
-8. Make sure the pods are running.
+7. Make sure the pods are running.
 
 ```
 kubectl get pods -n app1
 
 ```
 
-9. Deploy the Egress gateway using the egress IP Pool. 
+8. Deploy the Egress gateway using the egress IP Pool. 
 
 ```
 
@@ -243,7 +229,7 @@ Note the following configurations:
 * `egress-code: red` is the lable that we will use to annotate the egress gateway client pod or namespace to use the egress gateway as it egress proxy.
 * `cidr: "10.10.10.0/31"` is the IPPool that was deployed to provide IP address to egress gateway pods. 
 
-10. Make sure that the egress gateway pod is running.
+9. Make sure that the egress gateway pod is running.
 
 ```
 kubectl get pods -o wide
@@ -256,6 +242,22 @@ egress-gateway-74c977bb77-5bxsm    1/1     Running   0          133m   10.10.10.
 nginx-deployment-9456bbbf9-2vkfx   1/1     Running   0          23h    10.48.0.208   ip-10-0-1-30.eu-west-1.compute.internal   <none>           <none>
 nginx-deployment-9456bbbf9-6g6gl   1/1     Running   0          23h    10.48.0.38    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
 nginx-deployment-9456bbbf9-rkl9s   1/1     Running   0          23h    10.48.0.37    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
+```
+
+10. Check the routes on the bastion node. You should see that the edge gateway pod is reachable through the worker node where it has been deployed:
+
+```
+ip route
+```
+```
+default via 10.0.1.1 dev ens5 proto dhcp src 10.0.1.10 metric 100 
+10.0.1.0/24 dev ens5 proto kernel scope link src 10.0.1.10 
+10.0.1.1 dev ens5 proto dhcp scope link src 10.0.1.10 metric 100 
+10.10.10.0/31 via 10.0.1.31 dev ens5 proto bird 
+10.48.2.216/29 via 10.0.1.31 dev ens5 proto bird 
+10.49.0.0/16 proto bird 
+        nexthop via 10.0.1.20 dev ens5 weight 1 
+        nexthop via 10.0.1.31 dev ens5 weight 1
 ```
 
 11. We will now need to configure our egress gateway client (app1 application) to use the egress gateway. We could configure specific pods/deployments in app1 namespace to use the egress gateway by annotating the pods/deployment or all the pods/deployments in app1 namespace by annotating the namespace. Since we only have a single app in app1 namespace, we will configure the annotation on the namespace.
