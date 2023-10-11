@@ -205,7 +205,7 @@ spec:
   egressGatewayFailureDetection:
     healthTimeoutDataStoreSeconds: 30
     icmpProbe:
-      ips: [""]
+      ips: ["127.0.0.1"]
       timeoutSeconds: 15
       intervalSeconds: 5
   template:
