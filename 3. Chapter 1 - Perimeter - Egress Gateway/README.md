@@ -232,16 +232,13 @@ Note the following configurations:
 9. Make sure that the egress gateway pod is running.
 
 ```
-kubectl get pods -o wide
+kubectl get pods -o wide | grep egress
 
 ```
 
 ```
 NAME                               READY   STATUS    RESTARTS   AGE    IP            NODE                                      NOMINATED NODE   READINESS GATES
 egress-gateway-74c977bb77-5bxsm    1/1     Running   0          133m   10.10.10.0    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
-nginx-deployment-9456bbbf9-2vkfx   1/1     Running   0          23h    10.48.0.208   ip-10-0-1-30.eu-west-1.compute.internal   <none>           <none>
-nginx-deployment-9456bbbf9-6g6gl   1/1     Running   0          23h    10.48.0.38    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
-nginx-deployment-9456bbbf9-rkl9s   1/1     Running   0          23h    10.48.0.37    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
 ```
 
 10. Check the routes on the bastion node. You should see that the edge gateway pod is reachable through the worker node where it has been deployed:
@@ -369,7 +366,12 @@ kubectl edit deployments.apps egress-gateway
 24. Make sure that the egress gateway pod is running by running the following command.
 
 ```
-kubectl get pods -o wide   
+kubectl get pods -o wide | grep egress
+```
+
+```
+NAME                               READY   STATUS    RESTARTS   AGE    IP            NODE                                      NOMINATED NODE   READINESS GATES
+egress-gateway-74c977bb77-rcvkb    1/1     Running   0          10s   10.10.10.0    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
 ```
 
 25. Let's now implement a security policy that blocks ICMP traffic from egress gateway pod to `10.0.1.10`, but allows every other traffic.
@@ -404,16 +406,15 @@ EOF
 26. `ICMP_PROBE_TIMEOUT` environment variable is configured to `15s` by default. It should take about 15-20s after implementing the above policy for the egress gateway pod to show as non-ready as depiected below.
 
 ```
-Every 2.0s: kubectl get pods -o wide                                                                                                                                                                                        bastion: Wed Jan  4 01:42:09 2023
-
-NAME                               READY   STATUS    RESTARTS   AGE     IP            NODE                                      NOMINATED NODE   READINESS GATES
-egress-gateway-5fb89cf946-snznd    0/1     Running   0          3m25s   10.10.10.0    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
-nginx-deployment-9456bbbf9-2vkfx   1/1     Running   0          25h     10.48.0.208   ip-10-0-1-30.eu-west-1.compute.internal   <none>           <none>
-nginx-deployment-9456bbbf9-6g6gl   1/1     Running   0          25h     10.48.0.38    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
-nginx-deployment-9456bbbf9-rkl9s   1/1     Running   0          25h     10.48.0.37    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>****
+kubectl get pods -o wide | grep egress
 ```
 
-27. Follow the same connectivity steps that were done from step 14-18 above. You should still be able to make connections from `app1` to `10.0.1.10` as shown below and the connections should appear to be coming from egress gateway pod. The reason is that egress gateway daemon is still running in the container and just the ICMP probe has failed 
+```
+NAME                               READY   STATUS    RESTARTS   AGE    IP            NODE                                      NOMINATED NODE   READINESS GATES
+egress-gateway-74c977bb77-rcvkb    0/1     Running   0          3m15s   10.10.10.0    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
+```
+
+27. Follow the same connectivity steps that were done from step 13-17 above. You should still be able to make connections from `app1` to `10.0.1.10` as shown below and the connections should appear to be coming from egress gateway pod. The reason is that egress gateway daemon is still running in the container and just the ICMP probe has failed 
 
 ```
 Listening on 0.0.0.0 7777
