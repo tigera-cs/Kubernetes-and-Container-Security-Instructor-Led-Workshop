@@ -1,7 +1,7 @@
 # In this lab
 
-* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/tree/main/3.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway#overview)
-* [Implement Calico Enterprise Egress Gateway](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/tree/main/3.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway#implement-calico-enterprise-egress-gateway)
+* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/container_detectors.md#overview)
+* [Implement Calico Cloud Container Threat Detection](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/container_detectors.md#implement-calico-cloud-container-threat-detection)
 
 
 
@@ -42,7 +42,6 @@ kind: RuntimeSecurity
 metadata:
   name: default
 EOF
-
 ```
 
 This will result in Container threat detection running on all nodes in the managed cluster to detect malware and suspicious processes.
@@ -67,21 +66,18 @@ spec:
     imagePullPolicy: Always
     name: simulation
 EOF
-
 ```
 
 - Pod "evil-pod", which simulates a malware pod:
 
 ```
 kubectl run evil-pod --image quay.io/tigera/runtime-security-test
-
 ```
 
 4. Target the endpoint to generate malware activity:
 
 ```
 kubectl exec -it pod/evil-pod -- curl -XPOST localhost/bad
-
 ```
 5. Let's wait a minute and then check Service Graph. A red alert is shown on the Default namespace and, double-clicking on it, we can see details about the attacks:
 
@@ -99,12 +95,10 @@ In Kibana, lower-level reports for file and process activity are captured for yo
 
 ```
 kubectl delete pod outbound-connection-to-miner
-
 ```
 
 ```
 kubectl delete pod evil-pod
-
 ```
 
 > **Congratulations! You have completed `8. Chapter 3 - Runtime - Container Detectors` lab.**
