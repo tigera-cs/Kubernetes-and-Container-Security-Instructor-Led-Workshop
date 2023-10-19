@@ -7,109 +7,103 @@
 
 ### Overview
 
-In Kubernetes, Ingress traffic refers to any traffic that is initiated from outside the cluster to the services running inside the Kubernetes cluster. Egress traffic is just the opposite, any traffic that is initiated from the pods from within the cluster to the IP endpoints that are located outside the cluster. Kubernetes provides a native ingress resource to manage and control Ingress traffic. However, there is no native Kubernetes Egress resource. So when pods need to connect to an endpoint outside the cluster, they do so using their own IP addresses by default. Considering that an application could be implemented through one or more pods and the fact that pods in Kubernetes are ephemeral, it is almost impossible to identify and control the Kubernetes egress traffic from outside the cluster as the IP addresses are constantly changing. Egress gateways (EGWs) are pods that act as gateways for traffic leaving the cluster from certain client pods. The primary function of egress gateway is to configure the egress gateway client to have a particular and persistent source IP address when connecting to services outside the Kubernetes cluster.
+Calico Cloud provides a threat detection engine that analyzes observed file and process activity to detect known malicious and suspicious activity.
 
-To simplify the installation of th lab, we will be using the bastion instead of a pfSense, for the BGP peering and Egress Gateway configuration.
+As part of these threat detection capabilities, Calico Cloud maintains a database of malware file hashes. This database consists of SHA256, SHA1, and MD5 hashes of executable file contents that are known to be malicious. Whenever a program is launched in a Calico Cloud cluster, malware detection generates an alert in the Alerts dashboard if the program's hash matches one that is known to be malicious.
+
+Our threat detection engine also monitors activity within the containers running in your clusters to detect suspicious behavior and generate corresponding alerts. The threat detection engine monitors the following types of suspicious activity within containers:
+
+Access to sensitive system files and directories
+Defense evasion
+Discovery
+Execution
+Persistence
+Privilege escalation
 
 
-After finshing this lab, you should gain a good understanding of how to deploy Calico Enterprise Egress Gateway and establish a permanent identity for the traffic that is leaving the cluster.
+After finshing this lab, you should gain a good understanding of how to deploy Calico Cloud Container Threat Detection and investigate on malitious activity.
 
 ______________________________________________________________________________________________________________________________________________________________________
 
-### Implement Calico Enterprise Egress Gateway
+### Implement Calico Cloud Container Threat Detection
 
-1. Deploy the needed BGPConfiguration and BGPPeer so we route our traffic to the `bastion` host through the egress gateway.
+1. Edit the FelixConfiguration to add the new field that controls the period, in seconds, at which Felix exports the flow logs to Elasticsearch:
+ 
+```
+kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"flowLogsFlushInterval":"30s"}}'
+```
+
+2. Container threat detection is disabled by default. Let's enable it using kubectl:
 
 ```
 kubectl apply -f - <<EOF
-apiVersion: projectcalico.org/v3
-kind: BGPConfiguration
+apiVersion: operator.tigera.io/v1
+kind: RuntimeSecurity
 metadata:
   name: default
-spec:
-  logSeverityScreen: Info
-  nodeToNodeMeshEnabled: true
-  nodeMeshMaxRestartTime: 120s
-  asNumber: 64512
-  serviceClusterIPs:
-    - cidr: 10.49.0.0/16
-  listenPort: 179
-  bindMode: NodeIP
-  communities:
-  - name: bgp-large-community
-    value: 64512:120
-  prefixAdvertisements:
-    - cidr: 10.10.10.0/31
-      communities:
-        - bgp-large-community
-        - 64512:120
----
-apiVersion: projectcalico.org/v3
-kind: BGPPeer
-metadata:
-  name: my-global-peer
-spec:
-  peerIP: 10.0.1.10
-  asNumber: 64512
 EOF
 
 ```
 
-2. Bastion host is simulating our upstream router/firewall and we should have BGP sessions established to all the cluster nodes using the above configurations. Run the following command on the bastion node to validate the bgp sessions from the bastion node to the cluster nodes.
-
-```
-watch sudo birdc show protocols
-```
-
-Wait for all sessions to be established.
-
-```
-BIRD 1.6.8 ready.
-name     proto    table    state  since       info
-direct1  Direct   master   up     23:42:33    
-kernel1  Kernel   master   up     23:42:33    
-device1  Device   master   up     23:42:33    
-control1 BGP      master   up     23:42:35    Established   
-worker1  BGP      master   up     23:42:36    Established   
-worker2  BGP      master   up     23:42:35    Established
-```
-We must also set the bird config on the bastion to accept advertisements of the egress gateway network.
-
-```
-sudo vi /etc/bird/bird.conf
-```
-In this file add the 10.10.10.0/31 network here:
-
-```
-# Import filter
-filter rt_import {
-                        if (net ~ 10.48.2.0/24) then accept;
-                        if (net ~ 10.49.0.0/16) then accept;
-                        if (net ~ 10.50.0.0/24) then accept;
-                        if (net ~ 10.10.10.0/31) then accept; <-------
-                        reject;
-        }
-```
-And restart bird
-
-```
-sudo systemctl restart bird
-```
-
-3. Enable egress gateway support by patching FelixConfiguration to support egress gateway both per namespace and per pod.
-
-```
-kubectl patch felixconfiguration.p default --type='merge' -p '{"spec":{"egressIPSupport":"EnabledPerNamespaceOrPerPod"}}'
-    
-```
-4. Egress gateways require the Policy Sync API to be enabled in `felixconfiguration` to implement symmetric routing. Run the following command to enable this configuration cluster-wide.
+This will result in Container threat detection running on all nodes in the managed cluster to detect malware and suspicious processes.
 
 
-28. Clean up the resources that were deployed for the purpose of this lab.
+3. If a malicious or suspicious program is run within the cluster, it will be reported on the Alerts page of the Calico Cloud UI. We can simulate attacks deploying these 2 pods:
+
+- Pod "outbound-connection-to-miner", which simulates outbound connections to miner pools on common ports:
 
 ```
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  name: outbound-connection-to-miner
+  labels:
+    app: ubuntu
+spec:
+  containers:
+  - image: ghcr.io/lightspin-tech/light-k8s-attack-simulations/k8s-attack-simulation:latest
+    command: ["src/shell-outbound-connection-to-miner.sh"]
+    imagePullPolicy: Always
+    name: simulation
+EOF
+
 ```
-kubectl delete deployments egress-gateway
+
+- Pod "evil-pod", which simulates a malware pod:
+
+```
+kubectl run evil-pod --image quay.io/tigera/runtime-security-test
+
+```
+
+4. Target the endpoint to generate malware activity:
+
+```
+kubectl exec -it pod/evil-pod -- curl -XPOST localhost/bad
+
+```
+5. Let's wait a minute and then check Service Graph. A red alert is shown on the Default namespace and, double-clicking on it, we can see details about the attacks:
+
+## PASTE ARCADE LINK HERE ##
+
+Alerts are also visible in Activity > Alerts:
+
+## PASTE ARCADE LINK HERE ##
+
+In Kibana, lower-level reports for file and process activity are captured for your cluster using the index pattern `tigera_secure_ee_runtime*`.
+
+## PASTE ARCADE LINK HERE ##
+
+6. Clean up the resources that were deployed for the purpose of this lab.
+
+```
+kubectl delete pod outbound-connection-to-miner
+
+```
+
+```
+kubectl delete pod evil-pod
 
 ```
 
