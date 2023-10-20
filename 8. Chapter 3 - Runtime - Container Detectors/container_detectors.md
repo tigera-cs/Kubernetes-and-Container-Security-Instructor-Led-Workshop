@@ -85,7 +85,7 @@ kubectl exec -it pod/evil-pod -- curl -XPOST localhost/bad
 
 Alerts are also visible in Activity > Alerts:
 
-## PASTE ARCADE LINK HERE ##
+[![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Alerts.png)](https://app.arcade.software/share/6mmVE7eGn48uBzffAom6)
 
 In Kibana, lower-level reports for file and process activity are captured for your cluster using the index pattern `tigera_secure_ee_runtime*`.
 
