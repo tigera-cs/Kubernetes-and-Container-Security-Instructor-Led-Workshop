@@ -83,7 +83,7 @@ kubectl exec -it pod/evil-pod -- curl -XPOST localhost/bad
 
 [![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Screenshot%202023-10-20%20at%2009.36.40.png)](https://app.arcade.software/share/CD8sOEot4tj3bZXUzsVd)
 
-Alerts are also visible in Activity > Alerts:
+Alerts are also visible in Activity > Alerts. Play the demo below by clicking on the image:
 
 [![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Alerts.png)](https://app.arcade.software/share/6mmVE7eGn48uBzffAom6)
 
