@@ -81,7 +81,7 @@ kubectl exec -it pod/evil-pod -- curl -XPOST localhost/bad
 ```
 5. Let's wait a minute and then check Service Graph. A red alert is shown on the Default namespace and, double-clicking on it, we can see details about the attacks:
 
-<div style="position: relative; padding-bottom: calc(49.82638888888889% + 41px); height: 0; width: 100%"><iframe src="https://demo.arcade.software/CD8sOEot4tj3bZXUzsVd?embed" frameborder="0" loading="lazy" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;color-scheme: light;" title="Tigera - Dashboard"></iframe></div>
+[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Screenshot%202023-10-20%20at%2009.36.40.png)](https://app.arcade.software/share/CD8sOEot4tj3bZXUzsVd)
 
 Alerts are also visible in Activity > Alerts:
 
