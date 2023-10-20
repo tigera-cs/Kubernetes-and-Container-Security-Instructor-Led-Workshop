@@ -87,9 +87,9 @@ Alerts are also visible in Activity > Alerts. Play the demo below by clicking on
 
 [![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Alerts.png)](https://app.arcade.software/share/6mmVE7eGn48uBzffAom6)
 
-In Kibana, lower-level reports for file and process activity are captured for your cluster using the index pattern `tigera_secure_ee_runtime*`.
+In Threat Defense > Security Events, you get a more user-friendly overview of the malitious event. Play the demo below by clicking on the image:
 
-## PASTE ARCADE LINK HERE ##
+[![Security Events Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Security_events.png)](https://app.arcade.software/share/Eeg8MUG9Xzb8YKQldTtu)
 
 6. Clean up the resources that were deployed for the purpose of this lab.
 
