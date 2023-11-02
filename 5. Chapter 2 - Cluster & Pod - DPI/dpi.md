@@ -131,11 +131,11 @@ kubectl exec -it -n blue blue2 -- sh -c "curl http://10.48.116.156:80 -H 'User-A
 
 Play the demo below by clicking on the image:
 
-[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20DPI/DPI_Service_Graph.png)](https://app.arcade.software/share/CD8sOEot4tj3bZXUzsVd)
+[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20DPI/DPI_Service_Graph.png)](https://app.arcade.software/share/a3b3TQCPRQeURNIBplvJ)
 
 Alerts are also visible in Activity > Alerts. Play the demo below by clicking on the image:
 
-[![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20DPI/DPI_Alerts.png)](https://app.arcade.software/share/6mmVE7eGn48uBzffAom6)
+[![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20DPI/DPI_Alerts.png)](https://app.arcade.software/share/efXWMLTRGkRdqWCTVdTB)
 
 10. Clean up the resources that were deployed for the purpose of this lab.
 
