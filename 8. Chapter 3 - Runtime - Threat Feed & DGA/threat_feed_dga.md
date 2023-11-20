@@ -53,11 +53,11 @@ EOF
 NOTE: 
 
 This is the part of the manifest which creates the Global Network Set from the IP list of the Global Threat Feed resource:
-``
+```
   globalNetworkSet:
     labels:
       feed: training-ip-threatfeed
-``
+```
 
 3. Let's verify from Calico Cloud UI that the Global Threat Feed list and the Global Network Set were created.
 
