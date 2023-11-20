@@ -1,7 +1,7 @@
 # In this lab
 
-* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/tree/main/2.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway#overview)
-* [Implement Calico Enterprise Egress Gateway](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/tree/main/2.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway#implement-calico-enterprise-egress-gateway)
+* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/2.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway/egress_gateway.md#overview)
+* [Implement Calico Enterprise Egress Gateway](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/2.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway/egress_gateway.md#implement-calico-enterprise-egress-gateway)
 
 
 
