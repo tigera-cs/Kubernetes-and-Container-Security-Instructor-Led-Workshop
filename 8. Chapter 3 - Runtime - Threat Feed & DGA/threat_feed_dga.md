@@ -53,11 +53,11 @@ EOF
 NOTE: 
 
 This is the part of the manifest which creates the Global Network Set from the IP list of the Global Threat Feed resource:
-```
+`
   globalNetworkSet:
     labels:
       feed: training-ip-threatfeed
-```
+`
 
 3. Let's verify from Calico Cloud UI that the Global Threat Feed list and the Global Network Set were created.
 
@@ -120,11 +120,11 @@ Content-Type: text/html; charset=UTF-8
 
 A. From `Service Graph`:
 
-[![suspicious-activity-service-graph](img/3.suspicious-activity-service-graph.gif)(https://app.arcade.software/share/WsmHqUoWzIEVOAmzx8zz)]
+[![suspicious-activity-service-graph](img/3.suspicious-activity-service-graph.gif)](https://app.arcade.software/share/WsmHqUoWzIEVOAmzx8zz)
 
 B. From `Activity > Alerts`:
 
-[![suspicious-activity-alerts](img/4.suspicious-activity-alerts.gif)(https://app.arcade.software/share/QF8ZAMRNRoQ1eVYza6nD)]
+[![suspicious-activity-alerts](img/4.suspicious-activity-alerts.gif)](https://app.arcade.software/share/QF8ZAMRNRoQ1eVYza6nD)
 
 
 7. We have confirmed that the GlobalThreatFeed resource will only detect suspicious activity and generate alerts. To block these attempts, we need to create a Global Network Policy which will refers to the Global Network Set, using the label `feed == training-ip-threatfeed`. You can deploy the `tigera-security` tier and the `block-alienvault-ipthreatfeed` policy using this command:
@@ -171,12 +171,12 @@ As you can see, the response saved by the pod is now `Timeout`.
 
 9. From `Service Graph` we can confirm that the traffic is denied, and you can tell this from the color of the arrow between the `default` namespace and the `threatfeed.training.ip.threatfeed` Global Network Set, as well as from alert's details:
 
-[![deny-suspicious-activity-service-graph](img/5.deny-suspicious-activity-service-graph.gif)(https://app.arcade.software/share/Eo3MvbQ76O8Gp4yUfZSF)]
+[![deny-suspicious-activity-service-graph](img/5.deny-suspicious-activity-service-graph.gif)](https://app.arcade.software/share/Eo3MvbQ76O8Gp4yUfZSF)
 
 
 10. You can verify the same from `Activity > Alerts`:
 
-[![deny-suspicious-activity-service-graph](img/6.deny-suspicious-activity-activity-alerts.gif)(https://app.arcade.software/share/CoTdb8osmgGKlJDONxTA)]
+[![deny-suspicious-activity-service-graph](img/6.deny-suspicious-activity-activity-alerts.gif)](https://app.arcade.software/share/CoTdb8osmgGKlJDONxTA)
 
 11. It's time to delete what we have created for this training and dismiss alerts from Calico Cloud UI:
 
@@ -187,7 +187,7 @@ kubectl delete pod red
 
 B. Dismiss all the alerts from `Activity > Alerts`:
 
-[![dismiss-suspicious-activity-alerts](img/7.dismiss-suspicious-activity-alerts.gif)(https://app.arcade.software/share/wREfpjxHgnd88H6Q7w9m)]
+[![dismiss-suspicious-activity-alerts](img/7.dismiss-suspicious-activity-alerts.gif)](https://app.arcade.software/share/wREfpjxHgnd88H6Q7w9m)
 
 
 C. Delete the global network policy `block-training-ipthreatfeed` in the `tigera-security` tier:
