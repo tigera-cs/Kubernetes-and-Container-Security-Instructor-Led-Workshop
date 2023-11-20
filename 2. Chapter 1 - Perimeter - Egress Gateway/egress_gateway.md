@@ -1,7 +1,7 @@
 # In this lab
 
-* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/tree/main/3.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway#overview)
-* [Implement Calico Enterprise Egress Gateway](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/tree/main/3.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway#implement-calico-enterprise-egress-gateway)
+* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/tree/main/2.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway#overview)
+* [Implement Calico Enterprise Egress Gateway](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/tree/main/2.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway#implement-calico-enterprise-egress-gateway)
 
 
 
@@ -441,4 +441,4 @@ kubectl delete deployments egress-gateway
 
 ```
 
-> **Congratulations! You have completed `3. Chapter 1 - Perimeter - Calico Enterprise Egress Gateway` lab.**
+> **Congratulations! You have completed `2. Chapter 1 - Perimeter - Calico Enterprise Egress Gateway` lab.**

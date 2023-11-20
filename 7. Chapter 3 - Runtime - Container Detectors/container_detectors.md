@@ -1,7 +1,7 @@
 # In this lab
 
-* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/container_detectors.md#overview)
-* [Implement Calico Cloud Container Threat Detection](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/container_detectors.md#implement-calico-cloud-container-threat-detection)
+* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/container_detectors.md#overview)
+* [Implement Calico Cloud Container Threat Detection](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/container_detectors.md#implement-calico-cloud-container-threat-detection)
 
 
 
@@ -81,15 +81,15 @@ kubectl exec -it pod/evil-pod -- curl -XPOST localhost/bad
 ```
 5. Let's wait a minute and then check Service Graph. A red alert is shown on the Default namespace and, double-clicking on it, we can see details about the attacks. Play the demo below by clicking on the image:
 
-[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Screenshot%202023-10-20%20at%2009.36.40.png)](https://app.arcade.software/share/CD8sOEot4tj3bZXUzsVd)
+[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Screenshot%202023-10-20%20at%2009.36.40.png)](https://app.arcade.software/share/CD8sOEot4tj3bZXUzsVd)
 
 Alerts are also visible in Activity > Alerts. Play the demo below by clicking on the image:
 
-[![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Alerts.png)](https://app.arcade.software/share/6mmVE7eGn48uBzffAom6)
+[![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Alerts.png)](https://app.arcade.software/share/6mmVE7eGn48uBzffAom6)
 
 In Threat Defense > Security Events, you get a more user-friendly overview of the malitious event. Play the demo below by clicking on the image:
 
-[![Security Events Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Security_events.png)](https://app.arcade.software/share/Eeg8MUG9Xzb8YKQldTtu)
+[![Security Events Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Security_events.png)](https://app.arcade.software/share/Eeg8MUG9Xzb8YKQldTtu)
 
 6. Clean up the resources that were deployed for the purpose of this lab.
 
@@ -101,4 +101,4 @@ kubectl delete pod outbound-connection-to-miner
 kubectl delete pod evil-pod
 ```
 
-> **Congratulations! You have completed `8. Chapter 3 - Runtime - Container Detectors` lab.**
+> **Congratulations! You have completed `7. Chapter 3 - Runtime - Container Detectors` lab.**
