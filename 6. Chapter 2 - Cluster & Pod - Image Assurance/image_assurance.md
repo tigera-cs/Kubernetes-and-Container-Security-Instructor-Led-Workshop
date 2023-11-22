@@ -1,7 +1,7 @@
 # In this lab
 
-* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_dga.md#overview)
-* [Implement Calico Cloud Threat Feed](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_dga.md#implement-calico-cloud-threat-feed)
+* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/6.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20Image%20Assurance/image_assurance.md#overview)
+* [Implement Calico Cloud Image Assurance](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/6.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20Image%20Assurance/image_assurance.md#implement-calico-cloud-image-assurance)
 
 
 
