@@ -99,6 +99,6 @@ Finally, should you like to save the output of the scan to Calico Cloud, you nee
 sudo ./tigera-scanner scan quay.io/jsabo/log4shell-vulnerable-app:latest --apiurl URL_URL_URL --token TOKEN_TOKEN_TOKEN
 ```
 
-[![get-api-url-and-token](img/5.api.gif)]
+![get-api-url-and-token](img/5.api.gif)
 
 > **Congratulations! You have completed `6. Chapter 2 - Custer & Pod - Calico Cloud Image Assurance` lab.**
