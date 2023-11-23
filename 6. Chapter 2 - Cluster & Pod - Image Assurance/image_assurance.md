@@ -25,7 +25,7 @@ ________________________________________________________________________________
 
 1. To enable Image Assurance, we need to edit its configuration `kubectl edit imageassurances default` setting the `clusterScanner` field to `Enabled` and save the file.
 
-[![enable](img/1.enable.gif)]
+[![enable](img/1.enable.gif)](https://app.arcade.software/share/Q9nCQSf3XKTtInvckFlj)
 
 The cluster scanner is deployed as a container inside the tigera-image-assurance-crawdad daemonset.
 
@@ -51,11 +51,11 @@ Then click on the image and take a look at the information provided in the slidi
 - number of CVEs matched against each package
 - package CVSS score(highest CVSS score displayed in the list)
 
-[![investigation](img/2.investigation.gif)]
+[![investigation](img/2.investigation.gif)](https://app.arcade.software/share/1mur9oeiC5oxZQhzGUxq)
 
 Afterwords, go to Running Images and find the same image. Click on the image and confirm that it is running on your cluster.
 
-[![running-image](img/3.running_image.gif)]
+[![running-image](img/3.running_image.gif)](https://app.arcade.software/share/cC2KdaZ5CIcYq6EmrhES)
 
 4. Manual scanning
 
@@ -91,7 +91,7 @@ sudo docker pull quay.io/jsabo/log4shell-vulnerable-app:latest
 sudo ./tigera-scanner scan quay.io/jsabo/log4shell-vulnerable-app:latest
 ```
 
-[![manual-scanning](img/4.manual_scanning.gif)]
+[![manual-scanning](img/4.manual_scanning.gif)](https://app.arcade.software/share/juV5zWYjtmI84iMr5iYK)
 
 Finally, should you like to save the output of the scan to Calico Cloud, you need to retrieve the `API URL` and `API TOKEN` from Calico Cloud UI and use them push the result using this command:
 
