@@ -21,7 +21,7 @@ Persistence
 Privilege escalation
 
 
-After finshing this lab, you should gain a good understanding of how to deploy Calico Cloud Container Threat Detection and investigate on malitious activity.
+After finishing this lab, you should gain a good understanding of how to deploy Calico Cloud Container Threat Detection and investigate on malitious activity.
 
 ______________________________________________________________________________________________________________________________________________________________________
 
