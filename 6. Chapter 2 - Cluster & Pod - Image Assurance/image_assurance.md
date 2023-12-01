@@ -25,6 +25,13 @@ ________________________________________________________________________________
 
 1. To enable Image Assurance, we need to edit its configuration `kubectl edit imageassurances default` setting the `clusterScanner` field to `Enabled` and save the file.
 
+You can do it manually aas shown in the demo below, or use `kubectl patch` command:
+
+```
+kubectl patch imageassurances default --type merge  -p '{"spec":{"clusterScanner":"Enabled"}}'
+kubectl get pod -n tigera-image-assurance 
+```
+
 [![enable](img/1.enable.gif)](https://app.arcade.software/share/Q9nCQSf3XKTtInvckFlj)
 
 The cluster scanner is deployed as a container inside the tigera-image-assurance-crawdad daemonset.
@@ -61,7 +68,7 @@ Afterwords, go to Running Images and find the same image. Click on the image and
 
 You may also want to scan a registry before pulling any image from it. To do so:
 
-- Download the tigera-scanner locally:
+- Download the tigera-scanner to the bastion:
 
 ```
 sudo curl -Lo tigera-scanner https://installer.calicocloud.io/tigera-scanner/v3.18.0-1.1-1/image-assurance-scanner-cli-linux-amd64

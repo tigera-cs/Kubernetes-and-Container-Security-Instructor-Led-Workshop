@@ -46,7 +46,7 @@ spec:
   pull:
     http:
       format: {}
-      url: 'https://installer.calicocloud.io/feeds/v1/ips'
+      url: 'https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/joao-branch/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_list'
 EOF
 ```
 
@@ -58,6 +58,8 @@ This is the part of the manifest which creates the Global Network Set from the I
     labels:
       feed: training-ip-threatfeed
 ```
+
+***IMPORTANT: Do not use the list above in production. That list has been created for the only purpose of this lab.***
 
 3. Let's verify from Calico Cloud UI that the Global Threat Feed list and the Global Network Set were created.
 
@@ -86,7 +88,7 @@ spec:
     command:
       - "/bin/sh"
       - "-c"
-      - "while true; do curl -sI -m 2 http://103.175.16.39 || echo 'Timeout' >> /var/log/activity.log; sleep 60; done"
+      - "while true; do curl -sI -m 2 http://192.168.255.194 || echo 'Timeout' >> /var/log/activity.log; sleep 60; done"
     volumeMounts:
     - name: log-volume
       mountPath: /var/log

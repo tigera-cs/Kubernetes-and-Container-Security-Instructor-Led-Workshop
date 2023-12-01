@@ -11,7 +11,7 @@ Security teams need to run DPI quickly in response to unusual network traffic in
 
 For each deep packet inspection resource (DeepPacketInspection), Calico Cloud creates a live network monitor that inspects the header and payload information of packets that match the Snort community rules. Whenever malicious activities are suspected, an alert is automatically added to the Alerts page in the Calico Cloud Manager.
 
-Calico Cloud DPI uses AF_PACKET, a Linux socket that allows an application to receive and send raw packets. It is commonly used for troubleshooting (like tcdump and Wireshark), but also for network intrusion detection. For details, see AF_Packet.
+Calico Cloud DPI uses AF_PACKET, a Linux socket that allows an application to receive and send raw packets. It is commonly used for troubleshooting (like tcdump and Wireshark), but also for network intrusion detection. For details, see [AF_Packet](https://man7.org/linux/man-pages/man7/packet.7.html).
 
 After finshing this lab, you should gain a good understanding of how to deploy Calico Cloud Deep Packet Inspection and investigate on malitious activity.
 
@@ -89,37 +89,35 @@ NAME          CREATED AT
 red-dpi-all   2023-11-01T17:02:06Z
 ```
 
-7. Take note of IPs of `blue` and `red` pods:
+7. Save IPs of `blue1` and `red2` pods in variables, which we will use in the next step:
 
 ```
-kubectl get pods -A -owide | grep 'red1\|red2\|blue1\|blue2'
+RED2_IP=$(kubectl get pod -n red red2 -o jsonpath="{.status.podIP}")
+echo $RED2_IP
 ```
-In my case, this is what I got:
 
 ```
-blue                         blue1                                                                1/1     Running     0              6s     10.48.116.156   ip-10-0-1-31.ca-central-1.compute.internal   <none>           <none>
-blue                         blue2                                                                1/1     Running     0              4s     10.48.116.157   ip-10-0-1-31.ca-central-1.compute.internal   <none>           <none>
-red                          red1                                                                 1/1     Running     0              6s     10.48.127.211   ip-10-0-1-30.ca-central-1.compute.internal   <none>           <none>
-red                          red2                                                                 1/1     Running     0              6s     10.48.127.212   ip-10-0-1-30.ca-central-1.compute.internal   <none>           <none>
+BLUE1_IP=$(kubectl get pod -n blue blue1 -o jsonpath="{.status.podIP}")
+echo $BLUE1_IP
 ```
 
 8. Generate some traffic which will trigger the DPI resource (make sure to replace IP addresses with the ones you got in your lab):
 
 From red1 to red2 (Command 1)
 ```
-kubectl exec -it -n red red1 -- sh -c "curl http://10.48.127.212:80 -H 'User-Agent: Mozilla/4.0' -XPOST --data-raw 'smk=1234'" > /dev/null 2>&1
+kubectl exec -it -n red red1 -- sh -c "curl http://$RED2_IP:80 -H 'User-Agent: Mozilla/4.0' -XPOST --data-raw 'smk=1234'" > /dev/null 2>&1
 ```
 From red1 to blue1 (Command 2)
 ```
-kubectl exec -it -n red red1 -- sh -c "curl http://10.48.116.156:80 -H 'User-Agent: Mozilla/4.0' -XPOST --data-raw 'smk=1234'" > /dev/null 2>&1
+kubectl exec -it -n red red1 -- sh -c "curl http://$BLUE1_IP:80 -H 'User-Agent: Mozilla/4.0' -XPOST --data-raw 'smk=1234'" > /dev/null 2>&1
 ```
 From blue2 to red2 (Command 3)
 ```
-kubectl exec -it -n blue blue2 -- sh -c "curl http://10.48.127.212:80 -H 'User-Agent: Mozilla/4.0' -XPOST --data-raw 'smk=1234'" > /dev/null 2>&1
+kubectl exec -it -n blue blue2 -- sh -c "curl http://$RED2_IP:80 -H 'User-Agent: Mozilla/4.0' -XPOST --data-raw 'smk=1234'" > /dev/null 2>&1
 ```
 From blue2 to blue1 (Command 4)
 ```
-kubectl exec -it -n blue blue2 -- sh -c "curl http://10.48.116.156:80 -H 'User-Agent: Mozilla/4.0' -XPOST --data-raw 'smk=1234'" > /dev/null 2>&1
+kubectl exec -it -n blue blue2 -- sh -c "curl http://$BLUE1_IP:80 -H 'User-Agent: Mozilla/4.0' -XPOST --data-raw 'smk=1234'" > /dev/null 2>&1
 ```
 
 9. Wait 30 seconds and, from `Service Graph > Default`, double-click on the `red` namespace. You should see 4 alerts. Click on each arrow to investigate on these alerts and you will see that:
@@ -131,11 +129,11 @@ kubectl exec -it -n blue blue2 -- sh -c "curl http://10.48.116.156:80 -H 'User-A
 
 Play the demo below by clicking on the image:
 
-[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/4.%20Chapter%202%20-%20Cluster%20&%20Pod%20-%20DPI/DPI_Service_Graph.png)](https://app.arcade.software/share/a3b3TQCPRQeURNIBplvJ)
+[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/4.%20Chapter%202%20-%20Cluster%20&%20Pod%20-%20DPI/DPI_Service_Graph.gif)](https://app.arcade.software/share/a3b3TQCPRQeURNIBplvJ)
 
 Alerts are also visible in Activity > Alerts. Play the demo below by clicking on the image:
 
-[![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/4.%20Chapter%202%20-%20Cluster%20&%20Pod%20-%20DPI/DPI_Alerts.png)](https://app.arcade.software/share/efXWMLTRGkRdqWCTVdTB)
+[![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/4.%20Chapter%202%20-%20Cluster%20&%20Pod%20-%20DPI/DPI_Alerts.gif)](https://app.arcade.software/share/efXWMLTRGkRdqWCTVdTB)
 
 10. Clean up the resources that were deployed for the purpose of this lab.
 

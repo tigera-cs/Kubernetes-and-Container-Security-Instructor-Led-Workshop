@@ -33,7 +33,7 @@ ________________________________________________________________________________
 kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"flowLogsFlushInterval":"30s"}}'
 ```
 
-2. Container threat detection is disabled by default. Let's enable it using kubectl:
+2. Container threat detection is disabled by default. Let's enable it through the Calico UI (*Threat Defense > Container Threat Detection > Enable*) or using `kubectl`:
 
 ```
 kubectl apply -f - <<EOF
@@ -68,6 +68,8 @@ spec:
 EOF
 ```
 
+**NOTE**: *This pod will start generating traffic as soon as it is deployed. No manual action is required by us to generate miner-like traffic.*
+
 - Pod "evil-pod", which simulates a malware pod:
 
 ```
@@ -77,7 +79,7 @@ kubectl run evil-pod --image quay.io/tigera/runtime-security-test
 4. Target the endpoint to generate malware activity:
 
 ```
-kubectl exec -it pod/evil-pod -- curl -XPOST localhost/bad
+kubectl exec -it evil-pod -- curl -XPOST localhost/bad
 ```
 5. Let's wait a minute and then check Service Graph. A red alert is shown on the Default namespace and, double-clicking on it, we can see details about the attacks. Play the demo below by clicking on the image:
 
