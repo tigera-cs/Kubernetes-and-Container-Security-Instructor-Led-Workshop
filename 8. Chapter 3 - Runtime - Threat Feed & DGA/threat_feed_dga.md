@@ -46,7 +46,7 @@ spec:
   pull:
     http:
       format: {}
-      url: 'https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/joao-branch/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_list'
+      url: 'https://raw.githubusercontent.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_list?token=GHSAT0AAAAAACGKLDKZHM6XZDQHD74RJGY4ZLKC3KQ'
 EOF
 ```
 
