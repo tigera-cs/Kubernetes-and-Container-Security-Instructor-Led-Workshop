@@ -88,7 +88,7 @@ spec:
     command:
       - "/bin/sh"
       - "-c"
-      - "while true; do curl -sI -m 2 http://192.168.255.194 || echo 'Timeout' >> /var/log/activity.log; sleep 60; done"
+      - "while true; do curl -sI -m 2 http://10.48.255.194 || echo 'Timeout' >> /var/log/activity.log; sleep 60; done"
     volumeMounts:
     - name: log-volume
       mountPath: /var/log
