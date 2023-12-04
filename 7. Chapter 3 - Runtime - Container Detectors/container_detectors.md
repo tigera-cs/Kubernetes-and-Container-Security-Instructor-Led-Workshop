@@ -81,17 +81,17 @@ kubectl run evil-pod --image quay.io/tigera/runtime-security-test
 ```
 kubectl exec -it evil-pod -- curl -XPOST localhost/bad
 ```
-5. Let's wait a minute and then check Service Graph. A red alert is shown on the Default namespace and, double-clicking on it, we can see details about the attacks. Play the demo below by clicking on the image:
+5. Let's wait a minute and then check Service Graph. A red alert is shown on the Default namespace and, double-clicking on it, we can see details about the attacks. Watch the GIF or play the demo below by clicking on the image:
 
-[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Screenshot%202023-10-20%20at%2009.36.40.png)](https://app.arcade.software/share/CD8sOEot4tj3bZXUzsVd)
+[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/img/CTD_Service_Graph.gif)](https://app.arcade.software/share/CD8sOEot4tj3bZXUzsVd)
 
-Alerts are also visible in Activity > Alerts. Play the demo below by clicking on the image:
+Alerts are also visible in Activity > Alerts. Watch the GIF or play the demo below by clicking on the image:
 
-[![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Alerts.png)](https://app.arcade.software/share/6mmVE7eGn48uBzffAom6)
+[![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/img/CTD_Alerts.gif)](https://app.arcade.software/share/6mmVE7eGn48uBzffAom6)
 
-In Threat Defense > Security Events, you get a more user-friendly overview of the malitious event. Play the demo below by clicking on the image:
+In Threat Defense > Security Events, you get a more user-friendly overview of the malitious event. Watch the GIF or play the demo below by clicking on the image:
 
-[![Security Events Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Security_events.png)](https://app.arcade.software/share/Eeg8MUG9Xzb8YKQldTtu)
+[![Security Events Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/img/CTD_Security_events.gif)](https://app.arcade.software/share/Eeg8MUG9Xzb8YKQldTtu)
 
 6. Container Threat Detection also scans for suspicious activity which not necessarily is a malware or a known threat/signature. For example, the following pod and command, scans the subnet `10.48.116.0/24` to find out all reachable hosts, which is something suspicious but not a known vulnerability.
 
