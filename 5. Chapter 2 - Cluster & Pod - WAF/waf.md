@@ -32,6 +32,7 @@ ________________________________________________________________________________
 ```
 kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"flowLogsFlushInterval":"30s"}}'
 ```
+_____________________________________
 
 2. Deploy sample apps and a pod that we will use to simulate `east-west` `HTTP` attacks:
 
@@ -42,7 +43,7 @@ kubectl run -n red red --image=wbitt/network-multitool
 ```
 
 This will result in Container threat detection running on all nodes in the managed cluster to detect malware and suspicious processes.
-
+_____________________________________
 
 3. It's time to enable WAF from UI `Threat Defence > Web Application Firewall > Configure Web Application Firewall` or from CLI:
 
@@ -65,6 +66,7 @@ kubectl annotate svc frontend -n default --overwrite projectcalico.org/l7-loggin
 ```
 
 **NOTE**: *To fully enable WAF from UI, you must select the service/services you want to protect and then click `Confirm Selection`. In this lab, we are going to enable WAF for the `Frontend` service.*
+_____________________________________
 
 4. Get the IP of the `Frontend` service, which we will use as a target, and generate some traffic:
 
@@ -82,6 +84,7 @@ kubectl exec -it -n red red -- curl -I http://$FRONTEND/
 ```
 kubectl exec -it -n red red -- curl -I http://frontend.default/cart?artist=0+div+1+union%23foo*%2F*bar%0D%0Aselect%23foo%0D%0A1%2C2%2Ccurrent_user
 ```
+_____________________________________
 
 5. All these 3 commands should return this output:
 
@@ -112,6 +115,7 @@ Check the events and alerts generated for this traffic:
 **Activity > Alerts**
 
 [![WAF Activity Alerts](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_Activity_Alerts.gif)](https://app.arcade.software/share/RjHInEkLPoMG9P58FOGq)
+_____________________________________
 
 6. By default, WAF will not block a request even if it has matching rule violations. The rule engine is set to `DetectionOnly`. You can configure to block traffic instead with an `HTTP 403 Forbidden` response status code when the combined matched rules scores exceed a certain threshold.
 
@@ -125,20 +129,25 @@ kubectl edit cm -n tigera-operator modsecurity-ruleset
 - Uncomment it by removing `#` before it and change it from `DetectionOnly` to `On`, as shown below:
 
 **BEFORE**
+
 ![WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before.png)
 
 **AFTER**
+
 ![WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after.png)
 
 - Press `ESC` and change the default score threshold from 100 to 4 by searching for `setvar:tx.inbound_anomaly_score_threshold` and editing the value to `4`, as shown below:
 
 **BEFORE**
+
 ![WAF Before Score](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before_score.png)
 
 **AFTER**
+
 ![WAF Before Score](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after_score.png)
 
 - Press `ESC`, then type `:wq!` and press `ENTER` to save the configuration.
+_____________________________________
 
 7. Repeat step 4.
 
@@ -155,12 +164,14 @@ Basically:
 - The first command was and still is legitimate
 - the second command is suspicious, but the score is not reaching the threshold
 - The third command is exeeding the threshold, triggering the block from the WAF rule.
+_____________________________________
 
 8. Check again `Security Events` and `Activity > Alerts` and you hould see that the WAF is now blocking the simulated SQL Injection attack:
 
 ![WAF Block](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_block.png)
+_____________________________________
 
-6. Finally, clean up the resources that were deployed for the purpose of this lab.
+9. Finally, clean up the resources that were deployed for the purpose of this lab.
 
 
 ```
@@ -181,5 +192,6 @@ kubectl delete -f https://raw.githubusercontent.com/GoogleCloudPlatform/microser
 ```
 Kubectl delete ns red
 ```
+_____________________________________
 
 > **Congratulations! You have completed `5. Chapter 2 - Cluster & Pod - WAF` lab.**
