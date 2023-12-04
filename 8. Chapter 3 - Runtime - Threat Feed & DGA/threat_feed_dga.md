@@ -46,7 +46,7 @@ spec:
   pull:
     http:
       format: {}
-      url: 'https://raw.githubusercontent.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_list?token=GHSAT0AAAAAACGKLDKZVPW5B2IPLQVEQ3WAZLNZXWA'
+      url: 'https://installer.calicocloud.io/feeds/v1/ips'
 EOF
 ```
 
