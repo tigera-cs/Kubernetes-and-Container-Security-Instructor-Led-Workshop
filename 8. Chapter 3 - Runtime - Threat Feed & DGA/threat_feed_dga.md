@@ -46,7 +46,7 @@ spec:
   pull:
     http:
       format: {}
-      url: 'https://raw.githubusercontent.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_list?token=GHSAT0AAAAAACGKLDKZHM6XZDQHD74RJGY4ZLKC3KQ'
+      url: 'https://raw.githubusercontent.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_list?token=GHSAT0AAAAAACGKLDKZVPW5B2IPLQVEQ3WAZLNZXWA'
 EOF
 ```
 
@@ -88,7 +88,15 @@ spec:
     command:
       - "/bin/sh"
       - "-c"
-      - "while true; do curl -sI -m 2 http://10.48.255.194 || echo 'Timeout' >> /var/log/activity.log; sleep 60; done"
+      - |
+        while true; do
+          if curl -sI -m 2 http://1.194.233.154 >/dev/null 2>&1; then
+            echo \$(date) "-- 200 OK" >> /var/log/activity.log
+          else
+            echo \$(date) "-- timeout" >> /var/log/activity.log
+          fi
+          sleep 60
+        done
     volumeMounts:
     - name: log-volume
       mountPath: /var/log
@@ -108,14 +116,7 @@ EOF
 As you can see, the response from the server is `HTTP/1.1 200 OK`:
 
 ```
-HTTP/1.1 200 OK
-Date: Mon, 20 Nov 2023 14:49:18 GMT
-Server: Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/7.2.34
-Last-Modified: Thu, 16 Nov 2023 04:18:37 GMT
-ETag: "24b-60a3d505619f9"
-Accept-Ranges: bytes
-Content-Length: 587
-Content-Type: text/html; charset=UTF-8
+Mon Dec 4 13:13:00 UTC 2023 -- 200 OK
 ```
 
 6. This suspicious activity, even though is still allowed, is generating some alerts in Calico Cloud UI. Verify these alerts from `Service Graph` or `Activity > Alerts`:
