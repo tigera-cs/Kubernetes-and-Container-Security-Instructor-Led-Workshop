@@ -93,7 +93,47 @@ In Threat Defense > Security Events, you get a more user-friendly overview of th
 
 [![Security Events Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/Security_events.png)](https://app.arcade.software/share/Eeg8MUG9Xzb8YKQldTtu)
 
-6. Clean up the resources that were deployed for the purpose of this lab.
+6. Container Threat Detection also scans for suspicious activity which not necessarily is a malware or a known threat/signature. For example, the following pod and command, scans the subnet `10.48.116.0/24` to find out all reachable hosts, which is something suspicious but not a known vulnerability.
+
+A. Create the `nmap` pod:
+```
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nmap
+  namespace: default
+spec:
+  containers:
+    - name: nmap
+      image: 'ubuntu'
+      securityContext:
+          allowPrivilegeEscalation: false
+          runAsUser: 0
+          capabilities:
+            add:
+             - NET_RAW
+      command: ["/bin/sh"]
+      args:
+        - -c
+        - >-
+          apt update &&
+          apt install -y nmap &&
+          nmap --script-updatedb &&
+          echo "container is ready" &&
+          sleep 3d
+EOF
+```
+
+B. Launch this command to scan all available hosts:
+
+```
+kubectl exec -it nmap -- nmap -- nmap -sn 10.48.116.0/24
+```
+
+C. Repeat step 5 to see the new security events.
+
+6. Finally, clean up the resources that were deployed for the purpose of this lab.
 
 ```
 kubectl delete pod outbound-connection-to-miner
@@ -101,6 +141,10 @@ kubectl delete pod outbound-connection-to-miner
 
 ```
 kubectl delete pod evil-pod
+```
+
+```
+kubectl delete pod nmap
 ```
 
 > **Congratulations! You have completed `7. Chapter 3 - Runtime - Container Detectors` lab.**
