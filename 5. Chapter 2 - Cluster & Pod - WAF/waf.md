@@ -125,18 +125,18 @@ kubectl edit cm -n tigera-operator modsecurity-ruleset
 - Uncomment it by removing `#` before it and change it from `DetectionOnly` to `On`, as shown below:
 
 **BEFORE**
-[WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before.png)
+![WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before.png)
 
 **AFTER**
-[WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after.png)
+![WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after.png)
 
 - Press `ESC` and change the default score threshold from 100 to 4 by searching for `setvar:tx.inbound_anomaly_score_threshold` and editing the value to `4`, as shown below:
 
 **BEFORE**
-[WAF Before Score](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before_score.png)
+![WAF Before Score](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before_score.png)
 
 **AFTER**
-[WAF Before Score](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after_score.png)
+![WAF Before Score](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after_score.png)
 
 - Press `ESC`, then type `:wq!` and press `ENTER` to save the configuration.
 
@@ -158,7 +158,7 @@ Basically:
 
 8. Check again `Security Events` and `Activity > Alerts` and you hould see that the WAF is now blocking the simulated SQL Injection attack:
 
-[WAF Block](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_block.png)
+![WAF Block](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_block.png)
 
 6. Finally, clean up the resources that were deployed for the purpose of this lab.
 
