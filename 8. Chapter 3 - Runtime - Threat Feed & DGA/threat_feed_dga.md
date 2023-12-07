@@ -59,6 +59,8 @@ This is the part of the manifest which creates the Global Network Set from the I
       feed: training-ip-threatfeed
 ```
 
+***IMPORTANT: Do not use the list above in production. That list has been created for the only purpose of this lab.***
+
 3. Let's verify from Calico Cloud UI that the Global Threat Feed list and the Global Network Set were created.
 
 - Global Threat Feed list: Threat Defense > Threat Feeds:
@@ -86,7 +88,15 @@ spec:
     command:
       - "/bin/sh"
       - "-c"
-      - "while true; do curl -sI -m 2 http://103.175.16.39 || echo 'Timeout' >> /var/log/activity.log; sleep 60; done"
+      - |
+        while true; do
+          if curl -sI -m 2 http://1.194.233.154 >/dev/null 2>&1; then
+            echo \$(date) "-- 200 OK" >> /var/log/activity.log
+          else
+            echo \$(date) "-- timeout" >> /var/log/activity.log
+          fi
+          sleep 60
+        done
     volumeMounts:
     - name: log-volume
       mountPath: /var/log
@@ -106,14 +116,7 @@ EOF
 As you can see, the response from the server is `HTTP/1.1 200 OK`:
 
 ```
-HTTP/1.1 200 OK
-Date: Mon, 20 Nov 2023 14:49:18 GMT
-Server: Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/7.2.34
-Last-Modified: Thu, 16 Nov 2023 04:18:37 GMT
-ETag: "24b-60a3d505619f9"
-Accept-Ranges: bytes
-Content-Length: 587
-Content-Type: text/html; charset=UTF-8
+Mon Dec 4 13:13:00 UTC 2023 -- 200 OK
 ```
 
 6. This suspicious activity, even though is still allowed, is generating some alerts in Calico Cloud UI. Verify these alerts from `Service Graph` or `Activity > Alerts`:

@@ -9,7 +9,7 @@
 
 In Kubernetes, Ingress traffic refers to any traffic that is initiated from outside the cluster to the services running inside the Kubernetes cluster. Egress traffic is just the opposite, any traffic that is initiated from the pods from within the cluster to the IP endpoints that are located outside the cluster. Kubernetes provides a native ingress resource to manage and control Ingress traffic. However, there is no native Kubernetes Egress resource. So when pods need to connect to an endpoint outside the cluster, they do so using their own IP addresses by default. Considering that an application could be implemented through one or more pods and the fact that pods in Kubernetes are ephemeral, it is almost impossible to identify and control the Kubernetes egress traffic from outside the cluster as the IP addresses are constantly changing. Egress gateways (EGWs) are pods that act as gateways for traffic leaving the cluster from certain client pods. The primary function of egress gateway is to configure the egress gateway client to have a particular and persistent source IP address when connecting to services outside the Kubernetes cluster.
 
-To simplify the installation of th lab, we will be using the bastion instead of a pfSense, for the BGP peering and Egress Gateway configuration.
+To simplify the installation of th lab, we will be using the bastion instead of a router/ToR/Firewall, for the BGP peering and Egress Gateway configuration.
 
 
 After finshing this lab, you should gain a good understanding of how to deploy Calico Enterprise Egress Gateway and establish a permanent identity for the traffic that is leaving the cluster.
@@ -61,7 +61,7 @@ EOF
 watch sudo birdc show protocols
 ```
 
-Wait for all sessions to be established.
+Wait for all sessions to be established on all k8s nodes (control1, worker1 and worker2)
 
 ```
 BIRD 1.6.8 ready.
@@ -73,12 +73,18 @@ control1 BGP      master   up     23:42:35    Established
 worker1  BGP      master   up     23:42:36    Established   
 worker2  BGP      master   up     23:42:35    Established
 ```
-We must also set the bird config on the bastion to accept advertisements of the egress gateway network.
+We must also set the bird config on the bastion to accept advertisements of the egress gateway network. To do so, you can modify the `/etc/bird/bird.conf` configuration file, with this command:
+
+
+```
+sudo sed -i 's/if (net ~ 10.50.0.0\/24) then accept;/if (net ~ 10.50.0.0\/24) then accept;\n                        if (net ~ 10.10.10.0\/31) then accept;/g' /etc/bird/bird.conf
+```
+
+Check that the route has been added correctly `if (net ~ 10.10.10.0/31) then accept;`:
 
 ```
 sudo vi /etc/bird/bird.conf
 ```
-In this file add the 10.10.10.0/31 network here:
 
 ```
 # Import filter
@@ -220,7 +226,7 @@ EOF
 
 ```
 
-**Note:** Since Tigera continously updates this manifest with the new features and configurations paramters, this manifest should be downloaded from the Tigera docs site and adapted to the use case. Make sure the version of egress-gateway image matches the Calico Enterprise version deployed in the cluster:
+**Note:** Since Tigera continously updates this manifest with the new features and configurations paramters, this manifest should be downloaded from the Tigera docs site and adapted to the use case:
 
 https://docs.tigera.io/networking/egress/egress-gateway-on-prem#deploy-a-group-of-egress-gateways 
 
@@ -414,16 +420,12 @@ NAME                               READY   STATUS    RESTARTS   AGE    IP       
 egress-gateway-74c977bb77-rcvkb    0/1     Running   0          3m15s   10.10.10.0    ip-10-0-1-31.eu-west-1.compute.internal   <none>           <none>
 ```
 
-27. Follow the same connectivity steps that were done from step 13-17 above. You should still be able to make connections from `app1` to `10.0.1.10` as shown below and the connections should appear to be coming from egress gateway pod. The reason is that egress gateway daemon is still running in the container and just the ICMP probe has failed 
+27. Wait 30 seconds and follow the same connectivity steps that were done from step 13-17 above. You should no longer be able to make connections from `app1` to `10.0.1.10` because the ICMP probe of the Egress Gateway pod is failing.
+
+You can check logs of the Egress Gateway pod with this command:
 
 ```
-Listening on 0.0.0.0 7777
-Connection received on 10.10.10.0 35615
-Connection received on 10.10.10.0 39185
-Connection received on 10.10.10.0 36269
-Connection received on 10.10.10.0 42397
-Connection received on 10.10.10.0 44511
-Connection received on 10.10.10.0 42293
+kubectl logs -l egress-code=red
 ```
 
 28. Clean up the resources that were deployed for the purpose of this lab.
