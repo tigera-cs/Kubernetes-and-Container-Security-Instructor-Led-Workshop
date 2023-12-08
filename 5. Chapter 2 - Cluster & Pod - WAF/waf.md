@@ -11,7 +11,7 @@ Calico workload-centric Web Application Firewall (WAF) protects workloads from a
 
 Historically, web application firewalls (WAFs) were deployed at the edge of your cluster to filter incoming traffic. Calico workload-based WAF solution takes a unique, cloud-native approach to web security by allowing companies to implement zero-trust rules for workloads inside their cluster.
 
-WAF is deployed in the cluster along with Envoy DaemonSet. Calico Cloud proxies selected service traffic through Envoy, checking HTTP requests using the industry-standard ModSecurity with OWASP CoreRuleSet v3.3.5 modified for kubernetes workloads. To review the rules deployed with the WAF, see [Ruleset files](https://github.com/tigera/operator/tree/master/pkg/render/applicationlayer/modsec-core-ruleset).
+WAF is deployed in the cluster along with Envoy DaemonSet. Calico Cloud proxies selected service traffic through Envoy, checking HTTP requests using the industry-standard ModSecurity with OWASP CoreRuleSet v3.3.5 modified for kubernetes workloads. To review the rules deployed with the WAF, see [Ruleset files](https://github.com/tigera/operator/tree/master/pkg/render/applicationlayer/embed/coreruleset/rules).
 
 You simply enable WAF in Manager UI, and determine the services that you want to enable for WAF protection. By default WAF is set to DetectionOnly so no traffic will be denied until you are ready to turn on blocking mode.
 
