@@ -1,7 +1,7 @@
 # In this lab
 
-* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_dga.md#overview)
-* [Implement Calico Cloud Threat Feed](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_dga.md#implement-calico-cloud-threat-feed)
+* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed/threat_feed.md#overview)
+* [Implement Calico Cloud Threat Feed](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed/threat_feed.md#implement-calico-cloud-threat-feed)
 
 
 
@@ -38,7 +38,7 @@ metadata:
 spec:
   content: IPSet
   mode: Enabled
-  description: AlienVault IP Block List
+  description: Training IP Block List
   feedType: Builtin
   globalNetworkSet:
     labels:
@@ -46,7 +46,7 @@ spec:
   pull:
     http:
       format: {}
-      url: 'https://installer.calicocloud.io/feeds/v1/ips'
+      url: 'https://raw.githubusercontent.com/tigera-cs/cc-qsw/main/threat_feed_list'
 EOF
 ```
 
@@ -59,7 +59,9 @@ This is the part of the manifest which creates the Global Network Set from the I
       feed: training-ip-threatfeed
 ```
 
-***IMPORTANT: Do not use the list above in production. That list has been created for the only purpose of this lab.***
+**IMPORTANT: Do not use the list above in production. That list has been created for the only purpose of this lab.**
+**IMPORTANT: Do not use the list above in production. That list has been created for the only purpose of this lab.**
+**IMPORTANT: Do not use the list above in production. That list has been created for the only purpose of this lab.**
 
 3. Let's verify from Calico Cloud UI that the Global Threat Feed list and the Global Network Set were created.
 
@@ -73,7 +75,7 @@ This is the part of the manifest which creates the Global Network Set from the I
 
 4. At this stage, if a pod tries to connect to suspicious IPs included in our list, some alerts will be generated. We can test this applying the following pod:
 
-NOTE: The pod will send a curl command to a known suspicious IP every 60 seconds, and save the output to its `/var/log/activity.log` log file.
+NOTE: The pod will send a curl command to a known suspicious IP every 30 seconds, and save the output to its `/var/log/activity.log` log file.
 
 ```
 cat << EOF | kubectl apply -f -
@@ -90,12 +92,12 @@ spec:
       - "-c"
       - |
         while true; do
-          if curl -sI -m 2 http://1.194.233.154 >/dev/null 2>&1; then
+          if curl -sI -m 2 https://1.1.1.1 >/dev/null 2>&1; then
             echo \$(date) "-- 200 OK" >> /var/log/activity.log
           else
             echo \$(date) "-- timeout" >> /var/log/activity.log
           fi
-          sleep 60
+          sleep 30
         done
     volumeMounts:
     - name: log-volume
