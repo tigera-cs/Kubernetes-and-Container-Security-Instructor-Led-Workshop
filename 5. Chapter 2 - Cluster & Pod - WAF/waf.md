@@ -76,8 +76,9 @@ echo $FRONTEND
 ```
 
 ```
-kubectl exec -it -n red red -- curl -I http://frontend/
+kubectl exec -it -n red red -- curl -I http://frontend/ 
 ```
+**replace by "http://frontend.default.svc.cluster.local" JPCC**
 ```
 kubectl exec -it -n red red -- curl -I http://$FRONTEND/
 ```
@@ -132,7 +133,19 @@ kubectl edit cm -n tigera-operator modsecurity-ruleset
 
 ![WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before.png)
 
+**Suggestion JPCC**
+
+```
+\n#\nSecRuleEngine
+    DetectionOnly\n\n\n#
+```
+
 **AFTER**
+
+```
+\n\nSecRuleEngine
+    On\n\n\n#
+```
 
 ![WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after.png)
 
@@ -173,6 +186,7 @@ _____________________________________
 
 9. Finally, clean up the resources that were deployed for the purpose of this lab.
 
+**kubectl delete applicationlayers.operator.tigera.io tigera-secure JPCC**
 
 ```
 kubectl apply -f - <<EOF
@@ -190,7 +204,7 @@ kubectl delete -f https://raw.githubusercontent.com/GoogleCloudPlatform/microser
 ```
 
 ```
-Kubectl delete ns red
+kubectl delete ns red
 ```
 _____________________________________
 
