@@ -133,8 +133,6 @@ kubectl edit cm -n tigera-operator modsecurity-ruleset
 
 ![WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before.png)
 
-**Suggestion JPCC**
-
 ```
 \n#\nSecRuleEngine
     DetectionOnly\n\n\n#

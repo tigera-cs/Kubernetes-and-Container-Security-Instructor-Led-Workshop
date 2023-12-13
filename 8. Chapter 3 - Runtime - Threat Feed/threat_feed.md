@@ -26,8 +26,9 @@ ________________________________________________________________________________
 ```
 kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"flowLogsFileAggregationKindForAllowed":1}}'
 ```
-
-**kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"flowLogsFlushInterval":"10s"}}' - JPCC**
+```
+kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"flowLogsFlushInterval":"10s"}}'
+```
 
 2. Now, to configure Threat Feed, we need to deploy the GlobalThreatFeed resource for an IP list, which will also create a GlobalNetworkSet for the IPs included in the list. The IP list that we are going to use for this test is 'https://installer.calicocloud.io/feeds/v1/ips' and we can deploy the 2 resources, with this command:
 
@@ -67,7 +68,6 @@ This is the part of the manifest which creates the Global Network Set from the I
 
 **IMPORTANT: Do not use the list above in production. That list has been created for the only purpose of this lab.**
 
-**JPCC**
 
 3. Let's verify from Calico Cloud UI that the Global Threat Feed list and the Global Network Set were created.
 
