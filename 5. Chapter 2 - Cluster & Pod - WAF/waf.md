@@ -76,9 +76,9 @@ echo $FRONTEND
 ```
 
 ```
-kubectl exec -it -n red red -- curl -I http://frontend/ 
+kubectl exec -it -n red red -- curl -I http://frontend.default.svc.cluster.local 
 ```
-**replace by "http://frontend.default.svc.cluster.local" JPCC**
+
 ```
 kubectl exec -it -n red red -- curl -I http://$FRONTEND/
 ```
