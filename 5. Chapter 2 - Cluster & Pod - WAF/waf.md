@@ -184,18 +184,20 @@ _____________________________________
 
 9. Finally, clean up the resources that were deployed for the purpose of this lab.
 
-**kubectl delete applicationlayers.operator.tigera.io tigera-secure JPCC**
+```
+kubectl delete applicationlayers.operator.tigera.io tigera-secure
+```
 
-```
-kubectl apply -f - <<EOF
-apiVersion: operator.tigera.io/v1
-kind: ApplicationLayer
-metadata:
-  name: tigera-secure
-spec:
-  webApplicationFirewall: Disabled
-EOF
-```
+#```
+#kubectl apply -f - <<EOF
+#apiVersion: operator.tigera.io/v1
+#kind: ApplicationLayer
+#metadata:
+#  name: tigera-secure
+#spec:
+#  webApplicationFirewall: Disabled
+#EOF
+#```
 
 ```
 kubectl delete -f https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/release/v0.7.0/release/kubernetes-manifests.yaml
