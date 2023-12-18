@@ -34,7 +34,7 @@ kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"flowLogsFl
 ```
 _____________________________________
 
-2. Deploy sample apps and a pod that we will use to simulate `east-west` `HTTP` attacks:
+2. Deploy sample apps and a pod that we will use to simulate `a lateral` `HTTP` attacks:
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/release/v0.7.0/release/kubernetes-manifests.yaml
