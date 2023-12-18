@@ -13,4 +13,4 @@ Supporting documentation for Kubernetes and Container Security Workshop. The int
 - [5. Chapter 2 - Cluster & Pod - WAF](5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/waf.md)
 - [6. Chapter 2 - Cluster & Pod - Image Assurance](6.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20Image%20Assurance/image_assurance.md)
 - [7. Chapter 3 - Runtime - Container Detectors](7.%20Chapter%203%20-%20Runtime%20-%20Container%20Detectors/container_detectors.md)
-- [8. Chapter 3 - Runtime - Threat Feed & DGA](8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed%20%26%20DGA/threat_feed_dga.md)
+- [8. Chapter 3 - Runtime - Threat Feed & DGA](8.%20Chapter%203%20-%20Runtime%20-%20Threat%20Feed/threat_feed.md)
