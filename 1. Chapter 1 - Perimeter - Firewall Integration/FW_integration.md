@@ -12,7 +12,7 @@ One of the notable advantages is the ability to create and enforce Calico Securi
 
 ### Extend Kubernetes to Fortinet firewall devices - Fortigate Integration
 
-<a href="https://drive.google.com/file/d/1NDphqsYbhhLo2ojYITA07GlisbzkCWbk/view" target="_blank"> <span style="font-size:16px;"> Demo </span></a>
+<a href="https://drive.google.com/file/d/1NDphqsYbhhLo2ojYITA07GlisbzkCWbk/view" target="_blank">Demo</a>
 
 ### Extend FortiManager firewall policies to Kubernetes - Fortimanager Integration
 
