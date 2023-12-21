@@ -6,7 +6,7 @@
 
 Supporting documentation for Kubernetes and Container Security Workshop. The intent of this workshop is to provide provide you with a guided approach on how to implement an IDS/IPS solution for your Kubernetes cluster. We will start at the edge of the cluster and continue south towards the application, highlighting the different points we can implement an IDS/IPS strategy for your Kubernetes cluster.
 
-- [1. Chapter 1 - Perimeter - Firewall Integration](1.%20Chapter%201%20-%20Perimeter%20-%20Firewall%20Integration/FW_integration.md)
+- [1. Chapter 1 - Perimeter - Firewall Integration](1.%20Chapter%201%20-%20Perimeter%20-%20Firewall%20Integration/README.md)
 - [2. Chapter 1 - Perimeter - Egress Gateway](2.%20Chapter%201%20-%20Perimeter%20-%20Egress%20Gateway/egress_gateway.md)
 - [3. Chapter 1 - Perimeter - WAF](3.%20Chapter%201%20-%20Perimeter%20-%20WAF/waf.md)
 - [4. Chapter 2 - Cluster & Pod - DPI](4.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20DPI/dpi.md)
