@@ -128,7 +128,7 @@ EOF
 B. Launch this command to scan all available hosts:
 
 ```
-kubectl exec -it nmap -- nmap -- nmap -sn 10.48.116.0/24
+kubectl exec -it nmap -- nmap -sn 10.48.116.0/24
 ```
 
 C. Repeat step 5 to see the new security events.
