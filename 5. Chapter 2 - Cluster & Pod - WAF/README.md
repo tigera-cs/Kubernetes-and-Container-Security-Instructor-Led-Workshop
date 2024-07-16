@@ -11,7 +11,7 @@ Calico workload-centric Web Application Firewall (WAF) protects workloads from a
 
 Historically, web application firewalls (WAFs) were deployed at the edge of your cluster to filter incoming traffic. Calico workload-based WAF solution takes a unique, cloud-native approach to web security by allowing companies to implement zero-trust rules for workloads inside their cluster.
 
-WAF is deployed in the cluster along with Envoy DaemonSet. Calico Cloud proxies selected service traffic through Envoy, checking HTTP requests using the industry-standard ModSecurity with OWASP CoreRuleSet v3.3.5 modified for kubernetes workloads. To review the rules deployed with the WAF, see [Ruleset files](https://github.com/tigera/operator/tree/master/pkg/render/applicationlayer/embed/coreruleset/rules).
+WAF is deployed in the cluster along with Envoy DaemonSet. Calico Cloud proxies selected service traffic through Envoy, checking HTTP requests using Coraza with OWASP CoreRuleSet v4.X modified for kubernetes workloads. To review the rules deployed with the WAF, see [Ruleset files](https://github.com/coreruleset/coreruleset).
 
 You simply enable WAF in Manager UI, and determine the services that you want to enable for WAF protection. By default WAF is set to DetectionOnly so no traffic will be denied until you are ready to turn on blocking mode.
 
@@ -41,8 +41,6 @@ kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/microserv
 kubectl create ns red
 kubectl run -n red red --image=wbitt/network-multitool
 ```
-
-This will result in Container threat detection running on all nodes in the managed cluster to detect malware and suspicious processes.
 _____________________________________
 
 3. It's time to enable WAF from UI `Threat Defence > Web Application Firewall > Configure Web Application Firewall` or from CLI:
@@ -125,37 +123,17 @@ To do so:
 ```
 kubectl edit cm -n tigera-operator modsecurity-ruleset
 ```
-- Search for `nSecRuleEngine` using `/`
+- Search for `SecRuleEngine` using `/`
 - Press `i` to edit the resource
-- Uncomment it by removing `#` before it and change it from `DetectionOnly` to `On`, as shown below:
+- Change it from `DetectionOnly` to `On`, as shown below:
 
 **BEFORE**
 
 ![WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before.png)
 
-```
-\n#\nSecRuleEngine
-    DetectionOnly\n\n\n#
-```
-
 **AFTER**
-
-```
-\n\nSecRuleEngine
-    On\n\n\n#
-```
 
 ![WAF Before](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after.png)
-
-- Press `ESC` and change the default score threshold from 100 to 4 by searching for `setvar:tx.inbound_anomaly_score_threshold` and editing the value to `4`, as shown below:
-
-**BEFORE**
-
-![WAF Before Score](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_before_score.png)
-
-**AFTER**
-
-![WAF Before Score](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after_score.png)
 
 - Press `ESC`, then type `:wq!` and press `ENTER` to save the configuration.
 _____________________________________
@@ -182,7 +160,67 @@ _____________________________________
 ![WAF Block](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_block.png)
 _____________________________________
 
-9. Finally, clean up the resources that were deployed for the purpose of this lab.
+9. - **Optional**: Change the default score threshold
+
+- Edit the WAF ConfigMap:
+```
+kubectl edit cm -n tigera-operator modsecurity-ruleset
+```
+
+- Change the default score threshold to 1 by adding this to the configuration, between `t:none,\` and `setvar:'tx.allowed_request_content_type=|appli...`:
+
+```
+        setvar:tx.inbound_anomaly_score_threshold=1,\
+        setvar:tx.outbound_anomaly_score_threshold=20,\
+```
+
+**BEFORE**
+
+```
+    SecAction \
+        "id:900220,\
+        phase:1,\
+        nolog,\
+        pass,\
+        t:none,\
+        setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json| |application/grpc| |application/grpc+proto| |application/grpc+json| |application/octet-stream|'"
+```
+
+**AFTER**
+
+```
+    SecAction \
+        "id:900220,\
+        phase:1,\
+        nolog,\
+        pass,\
+        t:none,\
+        setvar:tx.inbound_anomaly_score_threshold=1,\
+        setvar:tx.outbound_anomaly_score_threshold=20,\
+        setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json| |application/grpc| |application/grpc+proto| |application/grpc+json| |application/octet-stream|'"
+```
+
+![WAF Before Score](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_after_score.png)
+
+- Press `ESC`, then type `:wq!` and press `ENTER` to save the configuration.
+
+10. Repeat step 4.
+
+You will see that, also the second command is returning `403 Forbidden`:
+
+```
+HTTP/1.1 403 Forbidden
+date: Mon, 04 Dec 2023 16:45:45 GMT
+server: envoy
+transfer-encoding: chunked
+```
+
+Basically:
+- The first command was and still is legitimate.
+- the second command is suspicious, but the score is exceeding the new threshold, triggering the block from the WAF rule.
+- The third command is exeeding the threshold, triggering the block from the WAF rule.
+
+11. Finally, clean up the resources that were deployed for the purpose of this lab.
 
 ```
 kubectl delete applicationlayers.operator.tigera.io tigera-secure
