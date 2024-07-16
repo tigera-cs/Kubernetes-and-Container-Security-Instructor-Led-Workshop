@@ -1,7 +1,7 @@
 # In this lab
 
-* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/waf.md#overview)
-* [Implement Calico Cloud East-West web Application Firewall](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/waf.md#implement-calico-cloud-east-west-web-application-firewall)
+* [Overview](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/README.md#overview)
+* [Implement Calico Cloud East-West web Application Firewall](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/README.md#implement-calico-cloud-east-west-web-application-firewall)
 
 
 
