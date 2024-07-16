@@ -160,7 +160,7 @@ _____________________________________
 ![WAF Block](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/5.%20Chapter%202%20-%20Cluster%20%26%20Pod%20-%20WAF/img/WAF_block.png)
 _____________________________________
 
-9. - **Optional**: Change the default score threshold
+9. **OPTIONAL**: Change the default score threshold
 
 - Edit the WAF ConfigMap:
 ```
