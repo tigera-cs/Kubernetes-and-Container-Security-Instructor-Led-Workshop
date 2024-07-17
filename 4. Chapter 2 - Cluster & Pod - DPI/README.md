@@ -127,11 +127,7 @@ kubectl exec -it -n blue blue2 -- sh -c "curl http://$BLUE1_IP:80 -H 'User-Agent
 - `Command 3` generated 1 alert for pod `red2` (destination)
 - `Command 4` didn't generate any alert
 
-Watch the GIF or play the demo below by clicking on the image:
-
-[![Service Graph Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/4.%20Chapter%202%20-%20Cluster%20&%20Pod%20-%20DPI/DPI_Service_Graph.gif)](https://app.arcade.software/share/a3b3TQCPRQeURNIBplvJ)
-
-Alerts are also visible in Activity > Alerts. Watch the GIF or play the demo below by clicking on the image:
+Alerts are visible in Activity > Alerts. Watch the GIF or play the demo below by clicking on the image:
 
 [![Activity > Alerts Simulation](https://github.com/tigera-cs/Kubernetes-and-Container-Security-Instructor-Led-Workshop/blob/main/4.%20Chapter%202%20-%20Cluster%20&%20Pod%20-%20DPI/DPI_Alerts.gif)](https://app.arcade.software/share/efXWMLTRGkRdqWCTVdTB)
 
